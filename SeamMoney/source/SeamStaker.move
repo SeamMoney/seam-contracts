@@ -3,7 +3,10 @@ module SeamStaker :: {
 
     use std::signer;
     use std::string;
+    use aptos_framework::aptos_coin:AptosCoin;
+    
     use seam::SNFT;
+
 
 
     // STRUCTS
@@ -29,7 +32,6 @@ module SeamStaker :: {
         // 2.)  Input it into token we make ? 
         // 3.) send our  DIY token back to the user 
 
-
     }
 
     public entry fun claim_stake(acc: &signer) {
@@ -52,6 +54,10 @@ module SeamStaker :: {
 
 
     // EVENTS NEEDED 
+
+    struct SeamStakerEvents has key {
+        
+    }
 
     /// emit an event on user stake deposit
 
