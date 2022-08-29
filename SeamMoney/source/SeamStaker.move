@@ -4,6 +4,14 @@ module SeamStaker :: {
     use std::signer;
     use std::string;
     use aptos_framework::aptos_coin:AptosCoin;
+    use AptosFramework::Table::{Self, Table};
+    use std::Event::{Self, EventHandle};
+    use aptos_std::type_info::{TypeInfo, type_of};
+    use std::vector;
+    use std::option;
+    use std::signer::address_of;
+    use aptos_framework::coin::{Self, Coin};
+    use aptos_framework::coins;
     
     use seam::SNFT;
 
@@ -13,6 +21,11 @@ module SeamStaker :: {
 
     const MIN_STAKE: u128 = 2222;
     const MAX_STAKE: u128 = 100000;
+        // Staking options in ms 
+    const TWO_DAYS: u64 = 2;
+    const WEEK: u64 = 0;
+    const MONTH: u64 = 1;
+
 
     struct StakeDeposit {};
 
@@ -24,17 +37,25 @@ module SeamStaker :: {
 
     // FUNCTIONS 
 
-    public entry fun user_stake(acc: user) acquires Coin {
+    public entry fun user_stake<X,Y>(sender: &signer,amount_x u64)  {
+
+        
+
+
         // TO FIGUREOUT 
         // - how to make function payable 
 
         // 1.) Create deposit stake struct 
         // 2.)  Input it into token we make ? 
         // 3.) send our  DIY token back to the user 
+        
 
     }
 
     public entry fun claim_stake(acc: &signer) {
+
+        
+
         
         // GOAL: allow user to close position & give them. back aptos coins 
         
