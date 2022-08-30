@@ -7,7 +7,7 @@ address seam {
 
     
       
-        struct AuctionEvent has store, drop {
+        struct StakeEvent has store, drop {
         id: TokenId,
         min_selling_price: u64,
         duration: u64
