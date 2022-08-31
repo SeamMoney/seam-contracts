@@ -1,11 +1,11 @@
 
+// This module defines an snft
+// S:seam
 
 address seam {
     use AptosFramework::Timestamp;
     use AptosFramework::Token::{Self, Token, TokenId};
     module SNFT {   
-
-    
       
         struct StakeEvent has store, drop {
         id: TokenId,
@@ -13,10 +13,12 @@ address seam {
         duration: u64
         }
         
-        public(script)fun initialize_snft(sender: &signer, creator: address, duration: u64) acquires StakeData {
-            
+        public(script)fun initialize_snft(signer:&signer, sender: &signer, creator: address, duration: u64) acquires StakeDepositEvent {
+                        
             let token_id = Token::create_token_id_raw(creator, collection_name, name);
             let sender_addr = Signer::address_of(sender);
+            let start_time = Timestamp::now_microseconds();
+            let token = Token::withdraw_token(sender, token_id, 1);
             
             
             if (!exists<AuctionData>(sender_addr)) {
@@ -28,8 +30,6 @@ address seam {
             };
 
             
-            let start_time = Timestamp::now_microseconds();
-            let token = Token::withdraw_token(sender, token_id, 1);
 
             let auction_data = borrow_global_mut<AuctionData>(sender_addr);
             let auction_items = &mut auction_data.auction_items;

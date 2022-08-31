@@ -1,18 +1,17 @@
-address seam {
-module SeamStaker :: {
+
+module  seam::SeamStaker {
 
     use std::signer;
     use std::string;
-    use aptos_framework::aptos_coin:AptosCoin;
+    use AptosFramework::aptos_coin:AptosCoin;
     use AptosFramework::Table::{Self, Table};
     use std::Event::{Self, EventHandle};
-    use aptos_std::type_info::{TypeInfo, type_of};
+    use std::type_info::{TypeInfo, type_of};
     use std::vector;
     use std::option;
     use std::signer::address_of;
-    use aptos_framework::coin::{Self, Coin};
-    use aptos_framework::coins;
-    
+    use AptosFramework::coin::{Coin};
+    use AptosFramework::coins;
     use seam::SNFT;
 
 
@@ -27,7 +26,6 @@ module SeamStaker :: {
     const MONTH: u64 = 1;
 
 
-    struct StakeDeposit {};
 
     struct DepositStake has store {
         validator_id: u64,
@@ -35,10 +33,12 @@ module SeamStaker :: {
         duration: u64
     }
 
+
+
     // FUNCTIONS 
 
     public entry fun user_stake<X,Y>(sender: &signer,amount_x u64)  {
-
+        
         
 
 
@@ -87,7 +87,6 @@ module SeamStaker :: {
     // emit an event on stake relock/autolock
 
     /// emit an event from a different module when stake is expired
-}
 }
 
 // GOAL NEXT MEETING - (Sunday) Make token and give it to them && Deposit Front End - 8 hours 
