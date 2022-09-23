@@ -19,6 +19,28 @@
 // }
 
 
-module seam::cynf{
+module seam::cynf { 
+    
+    // struct Route has copy, drop {
+    //     pool_address: address,
+    //     deposit_payload: address
+    // }
 
+
+
+
+    const SEAM_ADMIN: address = @seam;
+
+    // struct CPU has key, store {
+    //     f: address,
+    //     p: ,
+    //     ta: TypeInfo[]
+    // }
+
+    // public entry func init_cpu(sender: &signer, quantity: u64
+
+
+    // public entry func init(
+
+    // public ent
 }

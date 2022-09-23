@@ -1,94 +1,101 @@
 
-module  seam::SeamStaker {
+
+// The reponsibility of the seam staker modules is to direct the incoming stake to the specified validator
+// in return the user recives a token representing their stake deposit
+// The user can use this to claim stake rewards, sell a conditional contract to 
+
+module seam::SeamStaker {
 
     use std::signer;
-    use std::string;
-    use AptosFramework::aptos_coin:AptosCoin;
-    use AptosFramework::Table::{Self, Table};
-    use std::Event::{Self, EventHandle};
-    use std::type_info::{TypeInfo, type_of};
+    use std::string::{Self,String};
+    use std::aptos_coin::AptosCoin;
+    use std::table::{Self, Table};
+    use std::event::{Self, EventHandle};
+    // use std::type_info::{TypeInfo, type_of};
     use std::vector;
-    use std::option;
+    use std::unit_test;
+    // use std::option;
+    // use std::stake;
+    // use aptos_framework::staking_config::{StakingConfig,get};
     use std::signer::address_of;
-    use AptosFramework::coin::{Coin};
-    use AptosFramework::coins;
-    use seam::SNFT;
-
-
+    // use AptosFramework::coin::{Coin};
+    // use AptosFramework::coins::{self,Coin};
+    // use ap tin::lend::{Self,lend};
 
     // STRUCTS
 
-    const MIN_STAKE: u128 = 2222;
-    const MAX_STAKE: u128 = 100000;
-        // Staking options in ms 
-    const TWO_DAYS: u64 = 2;
-    const WEEK: u64 = 0;
-    const MONTH: u64 = 1;
+    // const MIN_STAKE: u128 = 2222;
+    // const MAX_STAKE: u128 = 100000;
+    // Staking options in ms 
+    // const TWO_DAYS: u64 = 2;
+    // const WEEK: u64 = 0;
+    // const MONTH: u64 = 1;
 
 
 
-    struct DepositStake has store {
+    struct DepositStake has store,drop {
+        duration: u64,
         validator_id: u64,
+        stake_id: u64, 
         deposit: u64,
-        duration: u64
     }
 
+    // struct FactoryOwner has key {
+    //     table_addy: vector<u8>;
+    // }
+
+
+    struct Pool has key,store {
+        id: u8,
+        // a: address
+    }
+
+
+    struct Pools has key {
+        items: Pool
+    }
 
 
     // FUNCTIONS 
 
-    public entry fun user_stake<X,Y>(sender: &signer,amount_x u64)  {
-        
-        
 
-
-        // TO FIGUREOUT 
-        // - how to make function payable 
-
-        // 1.) Create deposit stake struct 
-        // 2.)  Input it into token we make ? 
-        // 3.) send our  DIY token back to the user 
-        
-
+    public entry fun factory_init(acc: &signer){
+        let owner = signer::address_of(acc);
+        // let table = table::new<vector<u8>,vector<u8>>();
+        let pool = Pool{id: 1u8};
+        move_to(acc, pool);
     }
 
-    public entry fun claim_stake(acc: &signer) {
 
-        
+    // public entry fun user_stake(amount_x :u64){
+        // assert(address_of(sender)==
 
-        
-        // GOAL: allow user to close position & give them. back aptos coins 
-        
-        // accept DIY token
-        // get information from this token 
-        // transfer user back Aptos 
-
-    }
 
     
-    // CURRENT QUESTIONS 
-
-    // 1.) How to split up deposited funds (if we get to much for one node)
-    // 2.) How we want to take $$ of the top from nodes once the user closes 
-    // their position and we are giving back aptos coin 
-
-
-
-    // EVENTS NEEDED 
-
-    struct SeamStakerEvents has key {
-        
-    }
-
-    /// emit an event on user stake deposit
-
-    /// emit event on claim of stake rewards
-
-    // emit an event on stake relock/autolock
-
-    /// emit an event from a different module when stake is expired
 }
 
-// GOAL NEXT MEETING - (Sunday) Make token and give it to them && Deposit Front End - 8 hours 
-// GOAL NEXT MEETING - (Monday)  Claim Stake && Claim Front End - 6 hours 
-// GOAL NEXT MEETING - (Tuesday) Debug and practice demo  3.5 hours 
+#[test_only]
+module seam::seamStakeTests {
+    use std::unit_test;
+    use std::vector;
+    use std::signer;
+    use seam::SeamStaker;
+
+
+    // const HELLO_WORLD: vector<u8> = vector<u8>[150, 145, 154, 154, 157, 040, 167, 157, 162, 154, 144];
+    // const BOB_IS_HERE: vector<u8> = vector<u8>[142, 157, 142, 040, 151, 163, 040, 150, 145, 162, 145];
+
+     #[test]
+    public entry fun test_send_stake() {
+        let (alice, bob) = create_two_signers();
+        SeamStaker::factory_init(&alice);
+        // CapBasedMB::send_message_to(bob, signer::address_of(&alice), BOB_IS_HERE);
+    }
+
+    #[test]
+    fun create_two_signers(): (signer, signer) {
+        let signers = &mut unit_test::create_signers_for_testing(2);
+        (vector::pop_back(signers), vector::pop_back(signers))
+    }
+
+}
