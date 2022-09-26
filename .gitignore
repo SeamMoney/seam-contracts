@@ -1,2 +1,2 @@
-SeamDao/build
-SeamMoney/build/
+SeamDao/build/*
+/SeamMoney/build/
