@@ -6,18 +6,18 @@
 
 module seam::SeamStaker {
 
-    use std::signer;
-    use std::string::{Self,String};
-    use std::aptos_coin::AptosCoin;
-    use std::table::{Self, Table};
-    use std::event::{Self, EventHandle};
+    // use std::signer;
+    // use std::string::{Self};
+    // use std::aptos_coin::AptosCoin;
+    // use std::table::{Self, Table};
+    // use std::event::{Self, EventHandle};
     // use std::type_info::{TypeInfo, type_of};
-    use std::vector;
-    use std::unit_test;
+    // use std::vector;
+    // use std::unit_test;
     // use std::option;
     // use std::stake;
     // use aptos_framework::staking_config::{StakingConfig,get};
-    use std::signer::address_of;
+    // use std::signer::address_of;
     // use AptosFramework::coin::{Coin};
     // use AptosFramework::coins::{self,Coin};
     // use ap tin::lend::{Self,lend};
@@ -60,17 +60,11 @@ module seam::SeamStaker {
 
 
     public entry fun factory_init(acc: &signer){
-        let owner = signer::address_of(acc);
+        // let owner = signer::address_of(acc);
         // let table = table::new<vector<u8>,vector<u8>>();
         let pool = Pool{id: 1u8};
         move_to(acc, pool);
     }
-
-
-    // public entry fun user_stake(amount_x :u64){
-        // assert(address_of(sender)==
-
-
     
 }
 
@@ -78,7 +72,7 @@ module seam::SeamStaker {
 module seam::seamStakeTests {
     use std::unit_test;
     use std::vector;
-    use std::signer;
+    // use std::signer;
     use seam::SeamStaker;
 
 
@@ -87,7 +81,7 @@ module seam::seamStakeTests {
 
      #[test]
     public entry fun test_send_stake() {
-        let (alice, bob) = create_two_signers();
+        let (alice, _) = create_two_signers();
         SeamStaker::factory_init(&alice);
         // CapBasedMB::send_message_to(bob, signer::address_of(&alice), BOB_IS_HERE);
     }
