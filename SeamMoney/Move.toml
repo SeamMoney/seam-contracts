@@ -24,6 +24,12 @@ subdir = "aptos-move/framework/aptos-framework"
 [dependencies.hippo-swap]
 local = "deps/hippo-swap"
 
+[dependencies.econia]
+local = "deps/econia"
+
+[dependencies.Liquidswap]
+local = "deps/liquidswap"
+
 [dependencies.AptinLend]
 local = "deps/AptinLend"
 addr_subst = { "aptin_lend" = "0xac39575e72d6717001bda33bb9c355715e3f23d4f7b6952f7cf6f3dbfae60674" }
