@@ -76,8 +76,8 @@ module seam::cpu {
 
     // public hippo_swap<X,Y>(x0: coin::Coin<X>, y0: coin<Y>, q_in:u128)
 
-    public fun liquidswap_lp<X,Y>( x0: coin::Coin<X>, y0: coin<Y>, q0:u64, q ){
-        const pool: lp::LP = lp::LP<0x1::aptos_coin::AptosCoin, 0x43417434fd869edee76cca2a4d2301e528a1551b1d719b75c350c3c97d15b8b9::coins::BTC>
+    public fun liquidswap_lp<X,Y>( x0: coin::Coin<X>, y0: coin<Y>, q0:u64, q1:u64 ){
+        // const pool: lp::LP = lp::LP<0x1::aptos_coin::AptosCoin, 0x43417434fd869edee76cca2a4d2301e528a1551b1d719b75c350c3c97d15b8b9::coins::BTC>
         liquidswap::add_liqudity<X,Y,lp::LP<Y,X>>()
     }
 
@@ -86,20 +86,24 @@ module seam::cpu {
     struct CPU<phantom X,phantom Y> has key, store,copy {
         threads: vector<Thread<X,Y>>,
         weights: vector<u128>,
+        _: coin::MintCapability<LPToken<X, Y>>,
+        
     }
+
+    // Thread Vault
+    // struct TV {
+    //     thread:
+    // }
 
     
 
     public entry fun init_thread_table(creator: &signer){
         let t = table::new<String,Thread>();
-        move_to(creator, ThreadStore{threadTable:t})
+        move_to(creator, ThreadStore{threadTable:t,count:0})
     }
 
-    struct ThreadKey has copy, drop {
 
-    }
-
-    public entry fun add_thread<XCOIN,YCOIN> aquires ThreadStore(
+    public entry fun add_thread<XCOIN,YCOIN> (
         thread_type: u8, coin0: TypeInfo, coin1:TypeInfo, pool_address: address,){
 
             let thread = Thread {
@@ -109,8 +113,8 @@ module seam::cpu {
                 coin0: type_info::type_of<XCOIN>(),
                 coin1: type_info::type_of<YCOIN>(),
                 addr: pool_address,
-            }
-            let t = &borrow_global_mut<ThreadStore>(@seam);
+            };
+            let t = &borrow_global_mut<ThreadStore>();
             t.count = t.count + 1;
             thread.thread_id = t.count;
             table::add<String, Thread>(t, thread.name, thread)
@@ -125,11 +129,11 @@ module seam::cpu {
     
     // Creates the thread table and
     public entry fun init(signer: &signer) {
-        init_thread_table(signer)
+        init_thread_table(signer);
 
         // INIT pontem LP
+        add_thread<LBTC,LUSDT>(THREAD_TYPE_POOL, string::utf8(b"PONTEM_LBTC_LUSDT"),type_info::type_of<LBTC>() ,type_info::type_of<LUSDT>(), @liquidswap);
         // add_thread<LBTC,LUSDT>(THREAD_TYPE_POOL,type_info::type_of<LBTC>() ,type_info::type_of<LUSDT>(), @liquidswap)
-        add_thread<LBTC,LUSDT>(THREAD_TYPE_POOL, string::utf8(b'PONTEM_LBTC_LUSDT),type_info::type_of<LBTC>() ,type_info::type_of<LUSDT>(), @liquidswap)
 
     }
 
@@ -148,7 +152,7 @@ module seam::cpu {
         move_to(signer, cpu);
     }
 
-    public entry fun seam_deposit(name: String, q:128) aquires Seam{}
+    // public entry fun seam_deposit(name: String, q:128) aquires Seam{}
 
 }
 
@@ -160,10 +164,10 @@ module seam::cpuTests {
     // use std::signer;
     use seam::cpu::{Self,Thread};
     // liquid swap test coins
-    use test_coins::coins::{USDT, BTC};
+    // use test_coins::coins::{USDT, BTC};
     // Hippo swap devnet coins
-    use coin_list::devnet_coins::{DevnetUSDT as WUSDT, DevnetBTC as WBTC, DevnetSOL as WDAI, DevnetUSDC as WDOT, DevnetETH as WETH};
-
+    // use coin_list::devnet_coins::{DevnetUSDT as WUSDT, DevnetBTC as WBTC, DevnetSOL as WDAI, DevnetUSDC as WDOT, DevnetETH as WETH};
+    use liquidswap::coins::{Self,BTC as LBTC,USDT as LUSDT};
     // const HELLO_WORLD: vector<u8> = vector<u8>[150, 145, 154, 154, 157, 040, 167, 157, 162, 154, 144];
     const test_weights: vector<u8> = vector<u8>[50, 50];
 
@@ -175,7 +179,7 @@ module seam::cpuTests {
 
         cpu::init(&alice);
         
-        cpu::init_seam::<>
+        cpu::init_seam<WUSDT,DevnetBTC>(&alice)
 
     }
 
