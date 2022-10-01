@@ -14,7 +14,7 @@
 module seamDao::base {
     // use aptos_std::event::{Self, EventHandle};
     use aptos_std::event::{Self, EventHandle};
-    use aptos_std::table::{Self, Table};
+    use aptos_std::table::{Self, Table,new, borrow_global};
     // use aptos_std::guid::{Self,GUID,ID};
     use std::offer;
     use std::signer;
@@ -27,9 +27,9 @@ module seamDao::base {
     // const EONLY_ADMIN_CAN_REMOVE_NOTICE_CAP: u64 = 2;
 
 
-    struct WagEscrow has key {
-        locked_wags: Table<TokenId, Token<t>>
-    }
+    // struct WagEscrow has key {
+    //     locked_wags: Table<TokenId, Token<t>>
+    // }
 
     /// provide the capability to alert the board message
     struct DaoOwner has key, store {
@@ -39,7 +39,11 @@ module seamDao::base {
     struct DaoData has key,store,copy,drop {
         owner: address,
         count: u8,
-        members: Table<address,Member>
+        memStore: DaoStore<u64,Member>
+    }
+
+    struct DaoStore<phantom K: copy + drop, phantom V> has store {
+        member_table: table::Table<K,V>
     }
 
     struct TreasuryItems<string, phantom J> has key {
@@ -66,19 +70,16 @@ module seamDao::base {
     //     y_val: u64,
     // }
 
-    // struct InfoEvent<
-
     struct MemberEvent has store, drop {
         id: u64,
         // y_val: u64,
     }
    
 
-    /// emit an event from board acct showing the new participant with posting capability
-    struct SuggestionEvent has store, drop {
-        member: address,
-        suggestion: vector<u8>
-    }
+    // struct SuggestionEvent has store, drop {
+    //     member: address,
+    //     suggestion: vector<u8>
+    // }
 
 
     /// create the message board and move the resource to signer
@@ -90,8 +91,9 @@ module seamDao::base {
 
         let dao_addr = signer::address_of(account);
         // let dao_id = event::guid(dao_addr,0);
+        let temp_table: table::Table<u64,Member> =  table::new<u64,Member>();
+        let members = DaoStore<u64,Member>();
 
-        let members = table::new<address,Member>();
 
         move_to(account, owner);
         // let hand = MemberEventHandle{
@@ -101,7 +103,7 @@ module seamDao::base {
         move_to(account, DaoData {
             count:0,
             owner: dao_addr,
-            members:members
+            memStore:members
         });
         
     }
@@ -111,9 +113,9 @@ module seamDao::base {
         let dao_addr = signer::address_of(account);
         // let daoData = borrow_global(
         
-        let member_table = table::borrow_global<DaoData>(dao_addr).members;
+        let member_table = borrow_global_mut<DaoData>(dao_addr).memStore.member_table;
         // let n = Member
-        table::add(&mut member_table, participant, Member {
+        table::add<u64,Member>(&mut member_table,1 ,Member {
             id: 0,
         })
     }
@@ -140,7 +142,6 @@ module seamDao::base {
     //     );
     // }
 
-    /// an account can send events containing message
     // public entry fun send_message_to(
     //     account: signer, board_addr: address, message: vector<u8>
     // ) acquires MessageChangeEventHandle {

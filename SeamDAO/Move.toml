@@ -1,16 +1,16 @@
 [package]
-name = 'SeamDAO'
+name = 'SeamDao'
 version = '0.2.2'
 
 [addresses]
 std = '0x1'
 token = '0x3'
-seamDao = "_"
+seam = "_"
 
 
 ## protocol Integrations
-#anime = '0x16fe2df00ea7dde4a63409201f7f4e536bde7bb7335526a35d05111e68aa322c'
-#liquid = '0x43417434fd869edee76cca2a4d2301e528a1551b1d719b75c350c3c97d15b8b9'
+## anime = '0x16fe2df00ea7dde4a63409201f7f4e536bde7bb7335526a35d05111e68aa322c'
+## liquid = '0x43417434fd869edee76cca2a4d2301e528a1551b1d719b75c350c3c97d15b8b9'
 
 
 [dependencies]
@@ -20,8 +20,4 @@ seamDao = "_"
 git = "https://github.com/aptos-labs/aptos-core.git"
 rev = "971c160079263a8d3e1d2503a570b01ecaaf10ba"
 subdir = "aptos-move/framework/aptos-framework"
-
-
-[dependencies.hippo-aggregator]
-git = "https://github.com/hippospace/hippo-aggregator"
 
