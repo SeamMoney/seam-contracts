@@ -94,12 +94,12 @@ module seam::cpu {
 
 
     public entry fun add_thread<XCOIN,YCOIN> (
-        thread_type: u8, name:string::String , coin0: type_info::TypeInfo, coin1:TypeInfo, pool_address: address){
-
+        thread_type: u8, name: string::String , coin0: type_info::TypeInfo, coin1:TypeInfo, pool_address: address){
+            
             let thread = Thread {
                 thread_id: u8,
                 thread_type: thread_type,
-                name: ,
+                name: name,
                 coin0: type_info::type_of<XCOIN>(),
                 coin1: type_info::type_of<YCOIN>(),
                 addr: pool_address,
