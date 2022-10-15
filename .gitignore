@@ -2,3 +2,5 @@
 /SeamMoney/build/
 /build
 build
+deps
+seamIDE/node_modules
