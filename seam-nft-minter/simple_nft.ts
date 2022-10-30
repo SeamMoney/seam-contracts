@@ -1,8 +1,3 @@
-// Copyright (c) Aptos
-// SPDX-License-Identifier: Apache-2.0
-
-/* eslint-disable no-console */
-
 import dotenv from "dotenv";
 dotenv.config();
 
