@@ -116,7 +116,7 @@ module seam::cpu {
         count: u8
     }
 
-    public fun get_thread_table()acquires Table<String,Thread>  : Table<String,Thread>  {
+    public fun get_thread_table() acquires Table<String,Thread>  : Table<String,Thread>  {
         borrow_global<Thread
     }
 
@@ -130,9 +130,7 @@ module seam::cpu {
 
     }
 
-
     public entry fun init_seam(signer:&signer, thread_ids: vector<String>, weights: vector<u8>){
-        
         let cpu = Seam {
             threads: vector::singleton<Thread<XCOIN,YCOIN>>(Thread {
                 thread_type: THREAD_TYPE_POOL,
@@ -167,13 +165,9 @@ module seam::cpuTests {
      #[test]
     public entry fun test_send_stake() {
         let (alice, _) = create_two_signers();
-        
         // add stuff to table
-
         cpu::init(&alice);
-        
         cpu::init_seam<WUSDT,DevnetBTC>(&alice)
-
     }
 
     #[test]
