@@ -1,5 +1,7 @@
 # seam-contracts
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+
 This repository will serve as the base for the seam protocol on the aptos network
 
 The primary functions of the contracts are:
@@ -15,6 +17,8 @@ possible future additions:
 - incentivize operation of nodes connected to seam validators
 
 please visit the docs listed on our site for a more complete view of Seam
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 
 ## Reference from stake pool conract
 
