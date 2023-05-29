@@ -159,6 +159,7 @@ module seam::cpuTests {
     // liquid swap test coins
     // use test_coins::coins::{USDT, BTC};
     // Hippo swap devnet coins 
+
     // use coin_list::devnet_coins::{DevnetUSDT as WUSDT, DevnetBTC as WBTC, DevnetSOL as WDAI, DevnetUSDC as WDOT, DevnetETH as WETH};
     use liquidswap::coins::{Self,BTC as LBTC,USDT as LUSDT};
     // const HELLO_WORLD: vector<u8> = vector<u8>[150, 145, 154, 154, 157, 040, 167, 157, 162, 154, 144];
