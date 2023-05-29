@@ -1,0 +1,22 @@
+[package]
+name = 'seamNFT'
+version = '0.2.2'
+
+[addresses]
+std = '0x1'
+royalties = '0x9ee9892d8600ed0bf65173d801ab75204a16ac2c6f190454a3b98f6bcb99d915'
+aptos_token = '0x3'
+seamNFT = "_"
+
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-core.git"
+rev = "971c160079263a8d3e1d2503a570b01ecaaf10ba"
+subdir = "aptos-move/framework/aptos-framework"
+
+[dependencies.AptosToken]
+git = "https://github.com/aptos-labs/aptos-core.git"
+rev = "971c160079263a8d3e1d2503a570b01ecaaf10ba"
+subdir = "aptos-move/framework/aptos-token"
+
+
